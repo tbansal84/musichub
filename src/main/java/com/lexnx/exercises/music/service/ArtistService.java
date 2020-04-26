@@ -9,27 +9,40 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 @AllArgsConstructor
 @Service
 public class ArtistService {
     private final ArtistRepositoryImpl artistRepository;
+    private static final String EMPTY = "";
 
-    public Page<ArtistEntity> getArtist(String artistName, @NotNull Pageable pageable) {
-        return artistRepository.findAllByArtistNameContaining(artistName == null ? "" : artistName, pageable);
+    public Page<ArtistEntity> getArtist(String artistName, Pageable pageable) {
+        if (pageable == null) {
+            throw new IllegalArgumentException("{pageable} cannot be null");
+        }
+        return artistRepository.findAllByArtistNameContaining(artistName == null ? EMPTY : artistName, pageable);
     }
+
     @Transactional
-    public ArtistEntity createArtist(@NotNull ArtistEntity album) {
-        return artistRepository.save(album);
+    public ArtistEntity createArtist(ArtistEntity artistEntity) {
+        if (artistEntity == null) {
+            throw new IllegalArgumentException("{artistEntity} cannot be null");
+        }
+        return artistRepository.save(artistEntity);
 
     }
+
     @Transactional
-    public ArtistEntity editArtist(@NotNull UUID artistId, @NotNull ArtistEntity artistEntity) {
-        ArtistEntity artist = artistRepository.findById(artistId).orElseThrow(() -> new ArtistNotFoundException());
+    public ArtistEntity editArtist(UUID artistId, ArtistEntity artistEntity) {
+        if (artistId == null) {
+            throw new IllegalArgumentException("{artistId} cannot be null");
+        }
+        if (artistEntity == null) {
+            throw new IllegalArgumentException("{artistEntity} cannot be null");
+        }
+        final ArtistEntity artist = artistRepository.findById(artistId).orElseThrow(ArtistNotFoundException::new);
         artist.setArtistName(artistEntity.getArtistName());
         return artistRepository.save(artist);
-
     }
 }

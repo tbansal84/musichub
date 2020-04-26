@@ -1,14 +1,18 @@
 package com.lexnx.exercises.music.db.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-@Data
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class AlbumEntity {
     //TODO: set uniqueconstaint
     @Id
@@ -23,10 +27,9 @@ public class AlbumEntity {
     private ArtistEntity artist;
 
     @NotEmpty
-    @Convert(converter = Genre.GenreAttributeConverter.class)
-    private Genre genre;
+    private String genre;
 
-    @NotEmpty
+    @NotNull
     private Long releaseYear;
 
 

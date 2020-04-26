@@ -1,20 +1,23 @@
 package com.lexnx.exercises.music.rest.model;
 
-import com.lexnx.exercises.music.db.model.Genre;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
 
+import java.util.List;
 import java.util.UUID;
 
 // the annotation generates private and final fields
-@Data
+@Value
 @AllArgsConstructor
-@NoArgsConstructor
 public class Album {
     UUID albumId;
-    Genre genre;
+    String genre;
     String title;
-    String releaseYear;
+    Long releaseYear;
+    List<Track> tracks;
+
+
+
 }
