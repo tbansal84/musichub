@@ -24,14 +24,12 @@ public class AlbumController {
 
     private final AlbumService albumService;
     private final AlbumMapper albumMapper;
-    ;
 
 
     @GetMapping
     public Page<AlbumEntity> getAlbum(@PathVariable UUID artistId, @RequestParam(required = false) Genre genre, @PageableDefault(page = 0, size = 10)
     @SortDefault.SortDefaults({
-            @SortDefault(sort = "name", direction = Sort.Direction.DESC),
-            @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+            @SortDefault(sort = "releaseYear", direction = Sort.Direction.DESC)
     })
             Pageable pageable) {
         return albumService.getAlbum(artistId, genre, pageable);

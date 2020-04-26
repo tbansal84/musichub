@@ -17,7 +17,7 @@ public class ArtistEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID artistId;
     @NotEmpty
-    private String artistname;
+    private String artistName;
     @OneToMany
     private Set<AlbumEntity> albums = new HashSet<>();
 }

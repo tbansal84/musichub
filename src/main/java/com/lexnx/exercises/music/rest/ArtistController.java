@@ -27,8 +27,7 @@ public class ArtistController {
     public Page<ArtistEntity> getArtists(@RequestParam(required = false) String artistName,
                                          @PageableDefault(page = 0, size = 10)
                                          @SortDefault.SortDefaults({
-                                                 @SortDefault(sort = "name", direction = Sort.Direction.DESC),
-                                                 @SortDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                 @SortDefault(sort = "artistName", direction = Sort.Direction.DESC)
                                          })
                                                  Pageable pageable) {
         return artistService.getArtist(artistName, pageable);

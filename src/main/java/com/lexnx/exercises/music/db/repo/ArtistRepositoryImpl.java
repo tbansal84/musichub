@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-@Repository
-public interface ArtistRepository extends JpaRepository<ArtistEntity, UUID> {
+public interface ArtistRepositoryImpl extends JpaRepository<ArtistEntity, UUID> {
 
 
-    Page<ArtistEntity> findAllByArtistnameLike(String artistname, Pageable pageable);
+    Page<ArtistEntity> findAllByArtistNameContaining(String artistName, Pageable pageable);
 }

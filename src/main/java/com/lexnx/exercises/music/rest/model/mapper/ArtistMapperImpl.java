@@ -4,8 +4,6 @@ import com.lexnx.exercises.music.db.model.ArtistEntity;
 import com.lexnx.exercises.music.rest.model.Artist;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.processing.Generated;
-
 @Component
 public class ArtistMapperImpl implements ArtistMapper {
 
@@ -18,7 +16,7 @@ public class ArtistMapperImpl implements ArtistMapper {
         ArtistEntity artistEntity = new ArtistEntity();
 
         artistEntity.setArtistId( source.getArtistId() );
-        artistEntity.setArtistname( source.getArtistName() );
+        artistEntity.setArtistName( source.getArtistName() );
 
         return artistEntity;
     }
@@ -32,7 +30,7 @@ public class ArtistMapperImpl implements ArtistMapper {
         Artist artist = new Artist();
 
         artist.setArtistId( destination.getArtistId() );
-        artist.setArtistName( destination.getArtistname() );
+        artist.setArtistName( destination.getArtistName() );
 
         return artist;
     }
