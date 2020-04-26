@@ -27,7 +27,7 @@ public class AlbumController {
 
 
     @GetMapping
-    public Page<AlbumEntity> getAlbum(@PathVariable UUID artistId, @RequestParam(required = false) Genre genre, @PageableDefault(page = 0, size = 10)
+    public Page<AlbumEntity> getAlbum(@PathVariable UUID artistId, @RequestParam(required = false) String genre, @PageableDefault(page = 0, size = 10)
     @SortDefault.SortDefaults({
             @SortDefault(sort = "releaseYear", direction = Sort.Direction.DESC)
     })
@@ -43,7 +43,7 @@ public class AlbumController {
     }
 
     @PutMapping("{albumId}")
-    public ResponseEntity<Void> editAlbum(@PathVariable UUID artistId, @PathVariable Long albumId, @RequestBody Album album) {
+    public ResponseEntity<Void> editAlbum(@PathVariable UUID artistId, @PathVariable UUID albumId, @RequestBody Album album) {
         albumService.editAlbum(artistId, albumId, albumMapper.modelToEntity(album));
         return ResponseEntity.ok().build();
     }

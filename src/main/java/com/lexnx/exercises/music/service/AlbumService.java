@@ -21,9 +21,9 @@ public class AlbumService {
     private final AlbumRepositoryImpl albumRepository;
     private final ArtistRepositoryImpl artistRepository;
 
-    public Page<AlbumEntity> getAlbum(@NotNull UUID artistId, Genre genre, @NotNull Pageable pageable) {
-                return albumRepository.findByArtistAndGenreContaining(artistRepository.findById(artistId).orElseThrow(() -> new ArtistNotFoundException()),
-                genre, pageable);
+    public Page<AlbumEntity> getAlbum(@NotNull UUID artistId, String genre, @NotNull Pageable pageable) {
+        return albumRepository.findByArtistAndGenreContaining(artistRepository.findById(artistId).orElseThrow(() -> new ArtistNotFoundException()),
+                genre == null ? "" : genre, pageable);
     }
 
     @Transactional
@@ -35,7 +35,7 @@ public class AlbumService {
     }
 
     @Transactional
-    public AlbumEntity editAlbum(@NotNull UUID artistId, @NotNull Long albumId, @NotNull AlbumEntity album) {
+    public AlbumEntity editAlbum(@NotNull UUID artistId, @NotNull UUID albumId, @NotNull AlbumEntity album) {
 
         AlbumEntity s = albumRepository.findByArtistAndAlbumId(artistRepository.findById(artistId).orElseThrow(() -> new ArtistNotFoundException()), albumId)
                 .orElseThrow(() -> new AlbumNotFoundException());

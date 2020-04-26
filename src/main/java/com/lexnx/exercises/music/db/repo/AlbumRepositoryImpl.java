@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface AlbumRepositoryImpl extends JpaRepository<AlbumEntity, UUID> {
-    Page<AlbumEntity> findByArtistAndGenreContaining(ArtistEntity artist, Genre genre, Pageable pageable);
+    Page<AlbumEntity> findByArtistAndGenreContaining(ArtistEntity artist, String genre, Pageable pageable);
 
-    Optional<AlbumEntity> findByArtistAndAlbumId(ArtistEntity artist, Long albumId);
+    Optional<AlbumEntity> findByArtistAndAlbumId(ArtistEntity artist, UUID albumId);
 }

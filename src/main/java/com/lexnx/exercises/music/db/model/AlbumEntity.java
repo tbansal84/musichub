@@ -23,10 +23,9 @@ public class AlbumEntity {
     private ArtistEntity artist;
 
     @NotEmpty
-    @Convert(converter = Genre.GenreAttributeConverter.class)
-    private Genre genre;
+    private String genre;
 
-    @NotEmpty
+    @NotNull
     private Long releaseYear;
 
 

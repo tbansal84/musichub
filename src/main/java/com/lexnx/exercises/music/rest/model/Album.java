@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Album {
     UUID albumId;
-    Genre genre;
+    String genre;
     String title;
-    String releaseYear;
+    Long releaseYear;
 }
