@@ -1,0 +1,25 @@
+spring:
+  jpa:
+    show-sql: true
+discogs:
+  rest:
+    service:
+      communication:
+        protocols: "TLSv1.3,TLSv.1.2"
+        baseurl: https://api.discogs.com
+        searchEndpoint: /database/search
+        timeout: 5000
+      authentication:
+        key: BpkVUyqreVVGlgLajrPt
+        secret: yeZyaUyRJthOgZrEVGDPQDCQkgMsaoKO
+        keyenc: ENC(77FEUuv86zOwvaobpzEa6AY22DPHMVF5SUCpGe6T6Dk=)
+        secretenc: ENC(1WgbCkQaaC1MoTh7tDcfVqoPpXEE2jVeq49l5X4M4A+c66EWTYS3D+PohAfERFQV)
+
+
+
+
+jasypt:
+  encryptor:
+    bean: lexnexEncryptorBean
+logging:
+  level:

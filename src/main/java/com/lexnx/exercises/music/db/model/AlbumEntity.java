@@ -1,32 +1,25 @@
 package com.lexnx.exercises.music.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
+@Document
 @Data
-@Entity
 public class AlbumEntity {
     //TODO: set uniqueconstaint
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID albumId;
 
-    @NotEmpty
     private String title;
-
-    @ManyToOne
-    @NotNull
+    @JsonIgnore
     private ArtistEntity artist;
 
-    @NotEmpty
-    @Convert(converter = Genre.GenreAttributeConverter.class)
-    private Genre genre;
+    private String genre;
 
-    @NotEmpty
     private Long releaseYear;
 
 

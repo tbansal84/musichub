@@ -1,20 +1,18 @@
 package com.lexnx.exercises.music.rest;
 
 import com.lexnx.exercises.music.db.model.AlbumEntity;
-import com.lexnx.exercises.music.db.model.Genre;
-import com.lexnx.exercises.music.rest.model.Album;
-import com.lexnx.exercises.music.rest.model.mapper.AlbumMapper;
+import com.lexnx.exercises.music.discogs.vo.tracks.Tracklist;
 import com.lexnx.exercises.music.service.AlbumService;
+import com.lexnx.exercises.music.service.DiscogsService;
 import lombok.AllArgsConstructor;
-import org.mapstruct.factory.Mappers;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -23,31 +21,35 @@ import java.util.UUID;
 public class AlbumController {
 
     private final AlbumService albumService;
-    private final AlbumMapper albumMapper;
-    ;
+    private final DiscogsService discogsService;
 
 
     @GetMapping
-    public Page<AlbumEntity> getAlbum(@PathVariable UUID artistId, @RequestParam(required = false) Genre genre, @PageableDefault(page = 0, size = 10)
+    public Flux<AlbumEntity> getAlbum(@PathVariable UUID artistId, @RequestParam(required = false) String genre,
     @SortDefault.SortDefaults({
-            @SortDefault(sort = "name", direction = Sort.Direction.DESC),
-            @SortDefault(sort = "id", direction = Sort.Direction.ASC)
-    })
-            Pageable pageable) {
-        return albumService.getAlbum(artistId, genre, pageable);
+            @SortDefault(sort = "title", direction = Sort.Direction.DESC),
+            @SortDefault(sort = "albumId", direction = Sort.Direction.ASC)
+    }) Sort sort) {
+        return albumService.getAlbum(artistId, genre, sort);
 
     }
 
     @PostMapping
-    public ResponseEntity<UUID> createAlbum(@PathVariable UUID artistId, @RequestBody Album album) {
-        AlbumEntity entity = albumService.createAlbum(artistId, albumMapper.modelToEntity(album));
-        return ResponseEntity.ok(entity.getAlbumId());
+    //TODO: convert Entities to VOs/DTOs
+    public Mono<AlbumEntity> createAlbum(@PathVariable UUID artistId, @RequestBody AlbumEntity album) {
+        return albumService.createAlbum(artistId, album);
     }
 
     @PutMapping("{albumId}")
-    public ResponseEntity<Void> editAlbum(@PathVariable UUID artistId, @PathVariable Long albumId, @RequestBody Album album) {
-        albumService.editAlbum(artistId, albumId, albumMapper.modelToEntity(album));
-        return ResponseEntity.ok().build();
+    //TODO: convert Entities to VOs/DTOs
+    public Mono<AlbumEntity> editAlbum(@PathVariable UUID artistId, @PathVariable UUID albumId, @RequestBody AlbumEntity album) {
+        return albumService.editAlbum(artistId, albumId, album);
     }
+
+    @GetMapping(value = "{albumId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<List<Tracklist>> getAlbumWithTracks(@PathVariable UUID artistId, @PathVariable UUID albumId) {
+        return discogsService.findTracks(artistId, albumId);
+    }
+
 
 }

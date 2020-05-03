@@ -2,21 +2,16 @@ package com.lexnx.exercises.music.db.repo;
 
 import com.lexnx.exercises.music.db.model.AlbumEntity;
 import com.lexnx.exercises.music.db.model.ArtistEntity;
-import com.lexnx.exercises.music.db.model.Genre;
-import com.lexnx.exercises.music.rest.model.Album;
-import com.lexnx.exercises.music.rest.model.Artist;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AlbumRepository extends JpaRepository<AlbumEntity, UUID> {
-    Page<AlbumEntity> findByArtistAndGenreLike(ArtistEntity artist, Genre genre, Pageable pageable);
+public interface AlbumRepository extends ReactiveMongoRepository<AlbumEntity, UUID> {
+    Flux<AlbumEntity> findByArtistAndGenreContaining(Mono<ArtistEntity> artist, String genre, Sort sort);
 
-    Optional<AlbumEntity> findByArtistAndAlbumId(ArtistEntity artist, Long albumId);
 }
